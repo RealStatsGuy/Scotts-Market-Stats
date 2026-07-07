@@ -1,0 +1,2 @@
+enabled,dataset_id,board,market_segment,inventory_type,property_type,metric,frequency,source_url,status,notes
+TRUE,DET_MSP_CORE,Detached Median Sale Price,Median Sale Price,Detached,

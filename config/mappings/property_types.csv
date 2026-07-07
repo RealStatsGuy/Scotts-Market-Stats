@@ -1,0 +1,17 @@
+source_value,standard_value
+Apartment,Condo
+Apartments,Condo
+Condominium,Condo
+Condominiums,Condo
+Condo,Condo
+Condos,Condo
+Townhouse,Townhome
+Townhouses,Townhome
+Townhome,Townhome
+Townhomes,Townhome
+Detached,Single Family
+Single Detached,Single Family
+Single Family,Single Family
+Single Family Home,Single Family
+House,Single Family
+Houses,Single Family
