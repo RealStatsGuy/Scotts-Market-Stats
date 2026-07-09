@@ -1,0 +1,4 @@
+enabled,property_type_code,property_type,nc_code,status,notes
+TRUE,32,Condo,4,active,Validated
+TRUE,64,Townhouse,4,active,Validated
+TRUE,16,Single Family,4,active,Validated

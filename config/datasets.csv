@@ -1,2 +1,31 @@
-enabled,dataset_id,board,market_segment,inventory_type,property_type,metric,frequency,source_url,status,notes
-TRUE,DET_MSP_CORE,Detached Median Sale Price,Median Sale Price,Detached,
+enabled,dataset_id,board,market_segment,inventory_type,geography_code,geography_name,property_type_code,property_type,nc_code,metric_code,metric,frequency,period,status,notes
+TRUE,sardis_condo_asp,CADREB,Resale,Residential,5051,H70 - Sardis,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,sardis_condo_apsf,CADREB,Resale,Residential,5051,H70 - Sardis,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,sardis_townhouse_asp,CADREB,Resale,Residential,5051,H70 - Sardis,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,sardis_townhouse_apsf,CADREB,Resale,Residential,5051,H70 - Sardis,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,sardis_single_family_asp,CADREB,Resale,Residential,5051,H70 - Sardis,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,sardis_single_family_apsf,CADREB,Resale,Residential,5051,H70 - Sardis,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_condo_asp,CADREB,Resale,Residential,5041,F70 - Abbotsford,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_condo_apsf,CADREB,Resale,Residential,5041,F70 - Abbotsford,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_townhouse_asp,CADREB,Resale,Residential,5041,F70 - Abbotsford,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_townhouse_apsf,CADREB,Resale,Residential,5041,F70 - Abbotsford,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_single_family_asp,CADREB,Resale,Residential,5041,F70 - Abbotsford,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,abbotsford_single_family_apsf,CADREB,Resale,Residential,5041,F70 - Abbotsford,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,mission_condo_asp,CADREB,Resale,Residential,5042,F80 - Mission,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,mission_condo_apsf,CADREB,Resale,Residential,5042,F80 - Mission,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,mission_townhouse_asp,CADREB,Resale,Residential,5042,F80 - Mission,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,mission_townhouse_apsf,CADREB,Resale,Residential,5042,F80 - Mission,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,mission_single_family_asp,CADREB,Resale,Residential,5042,F80 - Mission,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,mission_single_family_apsf,CADREB,Resale,Residential,5042,F80 - Mission,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,langley_condo_asp,CADREB,Resale,Residential,5040,F60 - Langley,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,langley_condo_apsf,CADREB,Resale,Residential,5040,F60 - Langley,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,langley_townhouse_asp,CADREB,Resale,Residential,5040,F60 - Langley,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,langley_townhouse_apsf,CADREB,Resale,Residential,5040,F60 - Langley,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,langley_single_family_asp,CADREB,Resale,Residential,5040,F60 - Langley,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,langley_single_family_apsf,CADREB,Resale,Residential,5040,F60 - Langley,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_condo_asp,CADREB,Resale,Residential,5012,V - Vancouver,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_condo_apsf,CADREB,Resale,Residential,5012,V - Vancouver,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_townhouse_asp,CADREB,Resale,Residential,5012,V - Vancouver,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_townhouse_apsf,CADREB,Resale,Residential,5012,V - Vancouver,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_single_family_asp,CADREB,Resale,Residential,5012,V - Vancouver,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,vancouver_single_family_apsf,CADREB,Resale,Residential,5012,V - Vancouver,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.

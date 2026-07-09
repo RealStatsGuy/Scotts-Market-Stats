@@ -1,0 +1,3 @@
+enabled,metric_code,metric,status,notes
+TRUE,asp,Average Sale Price,active,Validated
+TRUE,apsf,Average $/Sq Ft,active,Validated

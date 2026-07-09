@@ -1,0 +1,6 @@
+enabled,geography_code,geography_name,source,market_segment,inventory_type,status,notes
+TRUE,5051,H70 - Sardis,CADREB,Resale,Residential,active,Validated
+TRUE,5041,F70 - Abbotsford,CADREB,Resale,Residential,active,Validated
+TRUE,5042,F80 - Mission,CADREB,Resale,Residential,active,Validated
+TRUE,5040,F60 - Langley,CADREB,Resale,Residential,active,Validated
+TRUE,5012,V - Vancouver,CADREB,Resale,Residential,active,Validated
