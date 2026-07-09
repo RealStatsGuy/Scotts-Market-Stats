@@ -1,3 +1,9 @@
 enabled,metric_code,metric,status,notes
 TRUE,asp,Average Sale Price,active,Validated
 TRUE,apsf,Average $/Sq Ft,active,Validated
+TRUE,cs,Unit Sales,active,Validated
+TRUE,adom,Average Days on Market,active,Validated
+TRUE,nl,New Listings,active,Testing
+TRUE,inv,Total Inventory,active,Testing
+TRUE,apop,% Original Price,active,Testing
+TRUE,star,Sell Through Rate,active,Testing

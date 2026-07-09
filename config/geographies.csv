@@ -5,4 +5,8 @@ TRUE,5042,F80 - Mission,CADREB,Resale,Residential,active,Validated
 TRUE,5040,F60 - Langley,CADREB,Resale,Residential,active,Validated
 TRUE,5012,V - Vancouver,CADREB,Resale,Residential,active,Validated
 TRUE,5053,H90 - Chilliwack,CADREB,Resale,Residential,active,Validated
-FALSE,5009,CADREB,CADREB,Resale,Residential,pending,Only SFH ASP validated
+TRUE,5009,CADREB,CADREB,Resale,Residential,active,Validated
+TRUE,5037,Surrey,CADREB,Resale,Residential,active,Validated
+FALSE,5052,Yarrow,CADREB,Resale,Residential,pending,Limited townhouse data; no condo data
+TRUE,5011,Burnaby,CADREB,Resale,Residential,active,Validated
+TRUE,5021,North Vancouver,CADREB,Resale,Residential,active,Testing
