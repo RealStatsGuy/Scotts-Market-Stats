@@ -4,3 +4,5 @@ TRUE,5041,F70 - Abbotsford,CADREB,Resale,Residential,active,Validated
 TRUE,5042,F80 - Mission,CADREB,Resale,Residential,active,Validated
 TRUE,5040,F60 - Langley,CADREB,Resale,Residential,active,Validated
 TRUE,5012,V - Vancouver,CADREB,Resale,Residential,active,Validated
+TRUE,5053,H90 - Chilliwack,CADREB,Resale,Residential,active,Validated
+FALSE,5009,CADREB,CADREB,Resale,Residential,pending,Only SFH ASP validated

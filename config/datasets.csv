@@ -29,3 +29,9 @@ TRUE,vancouver_townhouse_asp,CADREB,Resale,Residential,5012,V - Vancouver,64,Tow
 TRUE,vancouver_townhouse_apsf,CADREB,Resale,Residential,5012,V - Vancouver,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
 TRUE,vancouver_single_family_asp,CADREB,Resale,Residential,5012,V - Vancouver,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
 TRUE,vancouver_single_family_apsf,CADREB,Resale,Residential,5012,V - Vancouver,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_condo_asp,CADREB,Resale,Residential,5053,H90 - Chilliwack,32,Condo,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_condo_apsf,CADREB,Resale,Residential,5053,H90 - Chilliwack,32,Condo,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_townhouse_asp,CADREB,Resale,Residential,5053,H90 - Chilliwack,64,Townhouse,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_townhouse_apsf,CADREB,Resale,Residential,5053,H90 - Chilliwack,64,Townhouse,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_single_family_asp,CADREB,Resale,Residential,5053,H90 - Chilliwack,16,Single Family,4,asp,Average Sale Price,monthly,100,active,Generated from lookup tables.
+TRUE,chilliwack_single_family_apsf,CADREB,Resale,Residential,5053,H90 - Chilliwack,16,Single Family,4,apsf,Average $/Sq Ft,monthly,100,active,Generated from lookup tables.
