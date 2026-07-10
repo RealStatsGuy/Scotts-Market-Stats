@@ -62,9 +62,12 @@ def main():
         print("No data found in market_stats.")
         return
 
-    # Create proper date column for Google Sheets / dashboards
+    # Create proper date column for Google Sheets and dashboards
     df["date"] = pd.to_datetime(
-        df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2) + "-01"
+        df["year"].astype(str)
+        + "-"
+        + df["month"].astype(str).str.zfill(2)
+        + "-01"
     )
 
     # Pivot metric rows into metric columns
@@ -92,27 +95,30 @@ def main():
 
     wide.columns.name = None
 
-    # Clean metric column names for dashboard use
+    # Convert metric names into Python-friendly column names
+    identifier_columns = [
+        "date",
+        "year",
+        "month",
+        "board",
+        "market_segment",
+        "inventory_type",
+        "geography_code",
+        "geography_name",
+        "property_type_code",
+        "property_type",
+        "frequency",
+    ]
+
     rename_map = {}
+
     for col in wide.columns:
-        if col not in [
-            "date",
-            "year",
-            "month",
-            "board",
-            "market_segment",
-            "inventory_type",
-            "geography_code",
-            "geography_name",
-            "property_type_code",
-            "property_type",
-            "frequency",
-        ]:
+        if col not in identifier_columns:
             rename_map[col] = clean_column_name(col)
 
     wide = wide.rename(columns=rename_map)
 
-    # Calculate months of inventory if possible
+    # Calculate months of inventory
     if "total_inventory" in wide.columns and "unit_sales" in wide.columns:
         wide["months_of_inventory"] = wide.apply(
             lambda row: (
@@ -125,10 +131,71 @@ def main():
             axis=1,
         )
 
+    # Sort before applying presentation-friendly column names
     wide = wide.sort_values(
         by=["geography_name", "property_type", "date"],
         ascending=[True, True, True],
     )
+
+    # Rename columns for Google Sheets and dashboard presentation
+    presentation_rename_map = {
+        "date": "Date",
+        "year": "Year",
+        "month": "Month",
+        "board": "Board",
+        "market_segment": "Market Segment",
+        "inventory_type": "Inventory Type",
+        "geography_code": "Area Code",
+        "geography_name": "Area",
+        "property_type_code": "Property Type Code",
+        "property_type": "Property Type",
+        "frequency": "Frequency",
+        "percent_original_price": "% Original Price",
+        "average_dollar_per_sq_ft": "Price / Sq Ft",
+        "average_days_on_market": "Days on Market",
+        "average_sale_price": "Sale Price",
+        "new_listings": "New Listings",
+        "sell_through_rate": "Sell Through Rate",
+        "total_inventory": "Inventory",
+        "unit_sales": "Sales",
+        "months_of_inventory": "Months of Inventory",
+    }
+
+    wide = wide.rename(columns=presentation_rename_map)
+
+    # Put columns in a consistent order
+    preferred_column_order = [
+        "Date",
+        "Year",
+        "Month",
+        "Board",
+        "Market Segment",
+        "Inventory Type",
+        "Area Code",
+        "Area",
+        "Property Type Code",
+        "Property Type",
+        "Frequency",
+        "% Original Price",
+        "Price / Sq Ft",
+        "Days on Market",
+        "Sale Price",
+        "New Listings",
+        "Sell Through Rate",
+        "Inventory",
+        "Sales",
+        "Months of Inventory",
+    ]
+
+    existing_preferred_columns = [
+        col for col in preferred_column_order if col in wide.columns
+    ]
+
+    remaining_columns = [
+        col for col in wide.columns if col not in existing_preferred_columns
+    ]
+
+    wide = wide[existing_preferred_columns + remaining_columns]
 
     wide.to_csv(OUTPUT_PATH, index=False)
 
@@ -137,6 +204,7 @@ def main():
     print(f"Columns exported: {len(wide.columns):,}")
     print()
     print("Columns:")
+
     for col in wide.columns:
         print(f" - {col}")
 
