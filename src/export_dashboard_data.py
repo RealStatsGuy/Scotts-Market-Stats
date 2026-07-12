@@ -31,46 +31,57 @@ def main():
 
     conn = sqlite3.connect(DB_PATH)
 
-    query = """
-        SELECT
-            board,
-            market_segment,
-            inventory_type,
-            geography_code,
-            geography_name,
-            property_type_code,
-            property_type,
-            metric_code,
-            metric_name,
-            frequency,
-            year,
-            month,
-            value
-        FROM market_stats
-        ORDER BY
-            geography_name,
-            property_type,
-            year,
-            month,
-            metric_name;
-    """
+    try:
+        query = """
+            SELECT
+                board,
+                market_segment,
+                inventory_type,
+                geography_code,
+                geography_name,
+                property_type_code,
+                property_type,
+                metric_code,
+                metric_name,
+                frequency,
+                year,
+                month,
+                value
+            FROM market_stats
+            ORDER BY
+                geography_name,
+                property_type,
+                year,
+                month,
+                metric_name;
+        """
 
-    df = pd.read_sql_query(query, conn)
-    conn.close()
+        df = pd.read_sql_query(query, conn)
+
+    finally:
+        conn.close()
 
     if df.empty:
         print("No data found in market_stats.")
         return
 
-    # Create proper date column for Google Sheets and dashboards
+    # Create a proper monthly date column.
     df["date"] = pd.to_datetime(
         df["year"].astype(str)
         + "-"
         + df["month"].astype(str).str.zfill(2)
-        + "-01"
+        + "-01",
+        errors="coerce",
     )
 
-    # Pivot metric rows into metric columns
+    # Convert database values to numeric.
+    # Invalid or missing values become blank.
+    df["value"] = pd.to_numeric(
+        df["value"],
+        errors="coerce",
+    )
+
+    # Pivot metric rows into separate metric columns.
     wide = (
         df.pivot_table(
             index=[
@@ -95,7 +106,6 @@ def main():
 
     wide.columns.name = None
 
-    # Convert metric names into Python-friendly column names
     identifier_columns = [
         "date",
         "year",
@@ -110,34 +120,59 @@ def main():
         "frequency",
     ]
 
-    rename_map = {}
+    # Convert metric names into Python-friendly technical names.
+    metric_rename_map = {
+        column: clean_column_name(column)
+        for column in wide.columns
+        if column not in identifier_columns
+    }
 
-    for col in wide.columns:
-        if col not in identifier_columns:
-            rename_map[col] = clean_column_name(col)
+    wide = wide.rename(columns=metric_rename_map)
 
-    wide = wide.rename(columns=rename_map)
-
-    # Calculate months of inventory
+    # Calculate Months of Inventory.
     if "total_inventory" in wide.columns and "unit_sales" in wide.columns:
-        wide["months_of_inventory"] = wide.apply(
-            lambda row: (
-                row["total_inventory"] / row["unit_sales"]
-                if pd.notna(row["total_inventory"])
-                and pd.notna(row["unit_sales"])
-                and row["unit_sales"] != 0
-                else None
-            ),
-            axis=1,
+        inventory = pd.to_numeric(
+            wide["total_inventory"],
+            errors="coerce",
         )
 
-    # Sort before applying presentation-friendly column names
+        sales = pd.to_numeric(
+            wide["unit_sales"],
+            errors="coerce",
+        )
+
+        # Zero sales produces a blank Months of Inventory value.
+        wide["months_of_inventory"] = (
+            inventory / sales.where(sales != 0)
+        )
+
+    # Sort chronologically before calculating rolling averages.
+    series_sort_columns = [
+        "board",
+        "market_segment",
+        "inventory_type",
+        "geography_code",
+        "property_type_code",
+        "frequency",
+        "date",
+    ]
+
     wide = wide.sort_values(
-        by=["geography_name", "property_type", "date"],
-        ascending=[True, True, True],
+        by=series_sort_columns,
+        ascending=True,
+    ).reset_index(drop=True)
+
+    # Remove geography prefixes:
+    # F70 - Abbotsford becomes Abbotsford.
+    # V - Vancouver becomes Vancouver.
+    wide["geography_name"] = (
+        wide["geography_name"]
+        .astype(str)
+        .str.replace(r"^[^-]+ - ", "", regex=True)
+        .str.strip()
     )
 
-    # Rename columns for Google Sheets and dashboard presentation
+    # Rename columns for Google Sheets and dashboard presentation.
     presentation_rename_map = {
         "date": "Date",
         "year": "Year",
@@ -163,19 +198,17 @@ def main():
 
     wide = wide.rename(columns=presentation_rename_map)
 
-    # Put columns in a consistent order
-    preferred_column_order = [
-        "Date",
-        "Year",
-        "Month",
+    # Fields that uniquely identify one continuous market series.
+    rolling_group_columns = [
         "Board",
         "Market Segment",
         "Inventory Type",
         "Area Code",
-        "Area",
         "Property Type Code",
-        "Property Type",
         "Frequency",
+    ]
+
+    dashboard_metrics = [
         "% Original Price",
         "Price / Sq Ft",
         "Days on Market",
@@ -187,26 +220,121 @@ def main():
         "Months of Inventory",
     ]
 
+    existing_metrics = [
+        metric
+        for metric in dashboard_metrics
+        if metric in wide.columns
+    ]
+
+    # Ensure every metric is numeric before rolling calculations.
+    for metric in existing_metrics:
+        wide[metric] = pd.to_numeric(
+            wide[metric],
+            errors="coerce",
+        )
+
+    # Create a separate three-month rolling-average column
+    # for every exported metric.
+    for metric in existing_metrics:
+        rolling_column = f"{metric} 3-Month"
+
+        wide[rolling_column] = (
+            wide.groupby(
+                rolling_group_columns,
+                dropna=False,
+                sort=False,
+            )[metric]
+            .transform(
+                lambda series: series.rolling(
+                    window=3,
+                    min_periods=3,
+                ).mean()
+            )
+        )
+
+    # Keep identifier columns first.
+    identifier_output_columns = [
+        "Date",
+        "Year",
+        "Month",
+        "Board",
+        "Market Segment",
+        "Inventory Type",
+        "Area Code",
+        "Area",
+        "Property Type Code",
+        "Property Type",
+        "Frequency",
+    ]
+
+    # Put each monthly metric directly beside its three-month version.
+    metric_output_columns = []
+
+    for metric in existing_metrics:
+        metric_output_columns.extend(
+            [
+                metric,
+                f"{metric} 3-Month",
+            ]
+        )
+
+    preferred_columns = (
+        identifier_output_columns
+        + metric_output_columns
+    )
+
     existing_preferred_columns = [
-        col for col in preferred_column_order if col in wide.columns
+        column
+        for column in preferred_columns
+        if column in wide.columns
     ]
 
     remaining_columns = [
-        col for col in wide.columns if col not in existing_preferred_columns
+        column
+        for column in wide.columns
+        if column not in existing_preferred_columns
     ]
 
-    wide = wide[existing_preferred_columns + remaining_columns]
+    wide = wide[
+        existing_preferred_columns
+        + remaining_columns
+    ]
 
-    wide.to_csv(OUTPUT_PATH, index=False)
+    # Final export order.
+    wide = wide.sort_values(
+        by=[
+            "Area",
+            "Property Type",
+            "Date",
+        ],
+        ascending=[
+            True,
+            True,
+            True,
+        ],
+    ).reset_index(drop=True)
+
+    wide.to_csv(
+        OUTPUT_PATH,
+        index=False,
+        date_format="%Y-%m-%d",
+    )
 
     print(f"Exported dashboard data to: {OUTPUT_PATH}")
     print(f"Rows exported: {len(wide):,}")
     print(f"Columns exported: {len(wide.columns):,}")
+
     print()
     print("Columns:")
 
-    for col in wide.columns:
-        print(f" - {col}")
+    for column in wide.columns:
+        print(f" - {column}")
+
+    print()
+    print("Areas:")
+
+    for area in sorted(wide["Area"].dropna().unique()):
+        print(f" - {area}")
 
 
 if __name__ == "__main__":
